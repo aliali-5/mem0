@@ -32,6 +32,8 @@ class BaseEmbedderConfig(ABC):
         memory_search_embedding_type: Optional[str] = None,
         # LM Studio specific
         lmstudio_base_url: Optional[str] = "http://localhost:1234/v1",
+        # Used in openai.
+        http_proxy_url: Optional[str] = None
     ):
         """
         Initializes a configuration class instance for the Embeddings.
@@ -89,3 +91,6 @@ class BaseEmbedderConfig(ABC):
 
         # LM Studio specific
         self.lmstudio_base_url = lmstudio_base_url
+
+        # Used in openai.
+        self.http_client = httpx.Client(proxy=http_proxy_url) if http_proxy_url else None

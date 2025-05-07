@@ -41,6 +41,8 @@ class BaseLlmConfig(ABC):
         xai_base_url: Optional[str] = None,
         # LM Studio specific
         lmstudio_base_url: Optional[str] = "http://localhost:1234/v1",
+        # Used in openai.
+        http_proxy_url: Optional[str] = None
     ):
         """
         Initializes a configuration class instance for the LLM.
@@ -123,3 +125,6 @@ class BaseLlmConfig(ABC):
 
         # LM Studio specific
         self.lmstudio_base_url = lmstudio_base_url
+
+        # Used in openai.
+        self.http_client = httpx.Client(proxy=http_proxy_url) if http_proxy_url else None

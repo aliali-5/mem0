@@ -528,7 +528,8 @@ class Memory(MemoryBase):
             return {"results": original_memories}
 
     def _search_vector_store(self, query, filters, limit):
-        embeddings = self.embedding_model.embed(query, "search")
+        # Openai embedding model does not support empty query.
+        embeddings = self.embedding_model.embed(query, "search") if query else None
         memories = self.vector_store.search(query=query, vectors=embeddings, limit=limit, filters=filters)
 
         excluded_keys = {
