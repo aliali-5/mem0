@@ -56,6 +56,9 @@ client_telemetry = AnonymousTelemetry()
 
 
 def capture_event(event_name, memory_instance, additional_data=None):
+    if not MEM0_TELEMETRY:
+        return
+
     oss_telemetry = AnonymousTelemetry(
         vector_store=memory_instance._telemetry_vector_store
         if hasattr(memory_instance, "_telemetry_vector_store")
@@ -78,6 +81,8 @@ def capture_event(event_name, memory_instance, additional_data=None):
         event_data.update(additional_data)
 
     oss_telemetry.capture_event(event_name, event_data)
+
+    oss_telemetry.close()
 
 
 def capture_client_event(event_name, instance, additional_data=None):
